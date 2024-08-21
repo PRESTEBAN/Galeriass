@@ -31,7 +31,7 @@ export class LoginPage implements OnInit {
     if (this.formReg.valid) {
       try {
         await this.userService.login(this.formReg.value);
-        this.router.navigate(['/formulario-registro']);
+        this.router.navigate(['/tabs/tab1']);
       } catch (error) {
         this.presentAlert('Error de autenticación', 'Correo electrónico o contraseña incorrectos o no registrados.');
       }
