@@ -34,8 +34,6 @@ app.post('/send-notification', async (req, res) => {
     }
     const token = tokenDoc.data().token;
 
-    await admin.messaging().validateRegistrationToken(token);
-
     const messagePayload = {
       notification: {
         title: 'Nueva foto',
