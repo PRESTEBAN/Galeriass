@@ -77,7 +77,7 @@ export class NotificationServiceService {
       const otherUserEmail = await this.userService.getOtherUserEmail(currentUserEmail);
       
       if (otherUserEmail) {
-        await firstValueFrom(this.http.post('https://galeriass.onrender.com/send-notification', {
+        await firstValueFrom(this.http.post('noce-production.up.railway.app/send-notification', {
           email: otherUserEmail,
           message: message
         }));
