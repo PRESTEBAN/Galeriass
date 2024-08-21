@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sedan:ital@0;1&display=swap');
+
+//estos son los estilos que se les dara a cada uno de los elementos que estan en el html
+//los que estan con puntos son de clases, los que estan con # son de id, y los que no tienen nd al comienzo son de las etiquetas 
+
+*{//el asterisco es para dar estilos generales
+    font-family: "Montserrat", sans-serif;}
+
+ion-content {
+    --background: linear-gradient(to bottom, rgba(231, 216, 202, 0.4), rgba(224, 179, 158, 0.4));
+    background-color: #e7d8ca;
+    width: 100%;
+    vertical-align: middle;
+    align-content: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.general{
+    flex-direction: column;
+    align-content: center;
+    display: grid;
+    align-content: space-between;
+    justify-content: center;
+    margin-top: 10%;
+}
+
+.texto{
+    padding-left: 10%;
+    padding-right: 10%;
+    font-size: 20px;
+    text-align: center;
+    justify-content: center;
+    color: #D4B2A7;
+    width: 100%;
+    margin-top: 10%;
+}
+
+.Aumento{
+    font-weight: 900;
+    color:  #d1aca0;
+  }
+
+#titulo{
+    color: var(--color-grey-900, #D4B2A7);
+    text-align: center;
+    font-family: "Sedan", serif;
+    font-size: var(--heading-h-4-font-size, 30px);
+    line-height: var(--heading-h-4-line-height, 130%);
+    font-weight: var(--heading-h-4-font-weight, 800);
+    position: relative;
+    align-self: stretch;
+}
+
+.conTtex{
+    color: var(--color-secondary-400, #A38F85);
+    text-align: center;
+    font-family: "Montserrat", sans-serif;    font-size: var(--body-large-regular-font-size, 16px);
+    line-height: var(--body-large-regular-line-height, 150%);
+    font-weight: var(--body-large-regular-font-weight, 400);
+    position: relative;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+#text{ 
+    color: #A38F85;
+    font-family: "Montserrat", sans-serif;    font-size: 14px;
+    font-weight: 400;
+    font-weight: 800;
+}
+
+#psy{
+    color: var(--color-secondary-400, #D4B2A7);
+    font-family: "Montserrat", sans-serif;    font-size: var(--body-large-regular-font-size, 16px);
+    line-height: var(--body-large-regular-line-height, 150%);
+    font-weight: var(--body-large-regular-font-weight, 700);
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.registerButon{
+    color: white;
+    font-family: "Montserrat", sans-serif;
+}
+
+ion-item{
+    width: 350px;
+    --background: #A38F85;
+    background: #A38F85;
+    border-radius: 12px;
+    border-style: solid;
+    border-color: var(--color-grey-200, #A38F85);
+    border-width: 1px;
+    padding: 0px 0px 20px 10px;
+    display: flex;
+    text-align: start;
+    align-items: flex-start;
+    justify-content: center;
+    flex-shrink: 0;
+    height: 60px;
+    margin-bottom: 15px;
+}
+
+.SingIn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.boton{
+    --background: #e2b36f;
+    border-radius: 40px;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    flex-shrink: 0;
+    width: 100%;
+    height: 50px;
+    position: relative;
+}
+
+.textS{
+    font-weight: 800;
+}
+
+.iSesionCon{
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+
+.rectangle-2 {
+    background: var(--color-grey-200, #A38F85);
+    border-radius: 50px;
+    flex: 1;
+    height: 1px;
+    position: relative;
+}
+
+.textos{
+    font-size: 20px;
+    text-align: center;
+    justify-content: center;
+    color: #d4b2a7;
+    width: 100%;
+}
+
+a{
+    text-decoration: none;
+    color: #836657;
+}

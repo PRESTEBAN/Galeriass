@@ -1,0 +1,7 @@
+{
+  "name": "galery-notes",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

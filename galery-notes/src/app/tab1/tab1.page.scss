@@ -1,0 +1,32 @@
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    img {
+      width: 100%;
+      height: auto;
+      margin-bottom: 10px;
+    }
+  }
+  
+  .footer-toolbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+  }
+  
+  .camera-button {
+    --background: #3880ff;
+    --color: white;
+    --border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .camera-button ion-icon {
+    font-size: 30px;
+  }
+  

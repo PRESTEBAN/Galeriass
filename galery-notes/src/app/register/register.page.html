@@ -1,0 +1,56 @@
+<ion-content [fullscreen]="true">
+  <div class="general">
+    <!-- Contenedor general -->
+    <ion-buttons slot="start">
+      <ion-back-button default-href="#"></ion-back-button>
+    </ion-buttons>
+    <div class="texto">
+      <ion-label id="titulo">Regístrate en Gallery&Notes</ion-label>
+      <div class="contTex">
+        <ion-label id="text">Descubre la aplicación, tómate fotos y comparte notas simultáneamente </ion-label>
+      </div>
+    </div>
+    <div class="text-sub">
+      <ion-label class="texto2">Correo y Contraseña</ion-label>
+    </div>
+
+    <form [formGroup]="formReg" (ngSubmit)="onSubmit()">
+      <ion-item class="mb-3">
+        <ion-label position="floating">Email</ion-label>
+        <ion-input type="text" formControlName="email"></ion-input>
+      </ion-item>
+      <div *ngIf="formReg.get('email')?.errors?.['required'] && formReg.get('email')?.touched">
+        <ion-text color="danger">No se introdujo el usuario.</ion-text>
+      </div>
+      <div *ngIf="formReg.get('email')?.errors?.['email'] && formReg.get('email')?.touched">
+        <ion-text color="danger">Correo no válido.</ion-text>
+      </div>
+      <ion-item class="mb-3">
+        <ion-label position="floating">Password</ion-label>
+        <ion-input type="password" formControlName="password"></ion-input>
+      </ion-item>
+      <div *ngIf="formReg.get('password')?.errors?.['required'] && formReg.get('password')?.touched">
+        <ion-text color="danger">No se introdujo la contraseña 6 dig max.</ion-text>
+      </div>
+      <div class="button-container">
+        <ion-button class="boton" shape="round" type="submit"><ion-label class="botoncito"><ion-label class="registerButon">REGISTRARSE</ion-label></ion-label></ion-button>
+      </div>
+    </form>
+    <br><br>
+    <div class="iSesionCon">
+      <div class="or">
+        <div class="rectangle-2"></div>
+        <div class="inicia-con">¿Ya tienes cuenta?</div>
+        <div class="rectangle-1"></div>
+      </div>
+      <br><br>
+      <div class="texto"><!-- muestra el texto inferior en el que esta el hiperbinculo para moverse al registro de sesion  -->
+        <ion-label class="Aumento">¿Ya tienes cuenta?</ion-label>
+        <br>
+        <a href="login"><ion-label class="textS">Login</ion-label></a><!--  vinculo para dirigirse a la pagina de registro -->
+      </div>
+    </div>
+  </div>
+
+  
+</ion-content>

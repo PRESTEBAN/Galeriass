@@ -1,0 +1,84 @@
+<ion-content class="ion-padding" class="fondo">
+  <div class="logo"> 
+    <img src="../../assets/formulario.jpeg" alt=""> 
+  </div> 
+  <ion-label class="formR">Formulario de registro</ion-label>
+  <div class="form-container">
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <!-- Pregunta Nombres -->
+      <ion-label class="letras">Nombres:</ion-label>
+      <ion-item>
+        <ion-input formControlName="nombres" type="text"></ion-input>
+      </ion-item>
+
+      <!-- Pregunta Apellidos -->
+      <ion-label class="letras">Apellidos:</ion-label>
+      <ion-item>
+        <ion-input formControlName="apellidos" type="text"></ion-input>
+      </ion-item>
+
+      <!-- Fecha de nacimiento -->
+      <ion-label class="letras">Fecha de nacimiento:</ion-label>
+      <ion-item formGroupName="fechaNacimiento">
+        <ion-select formControlName="dia" placeholder="Día">
+          <ion-select-option *ngFor="let day of days" [value]="day">{{ day }}</ion-select-option>
+        </ion-select>
+
+        <ion-select formControlName="mes" placeholder="Mes">
+          <ion-select-option *ngFor="let month of months" [value]="month">{{ month }}</ion-select-option>
+        </ion-select>
+
+        <ion-select formControlName="anio" placeholder="Año">
+          <ion-select-option *ngFor="let year of years" [value]="year">{{ year }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <!-- Pregunta Deseo -->
+      <ion-label class="letras">Escribe un deseo:</ion-label>
+      <ion-item>
+        <ion-input formControlName="deseo"  type="text"></ion-input>
+      </ion-item>
+
+      <!-- Pregunta 1 -->
+      <ion-label class="letras">¿Te gusta compartir notas con tu novio?</ion-label>
+      <ion-radio-group formControlName="compartirNotas" required>
+        <ion-item>
+          <ion-radio value="si"></ion-radio>
+          <ion-label class="letras">Sí</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-radio value="no"></ion-radio>
+          <ion-label class="letras">No</ion-label>
+        </ion-item>
+      </ion-radio-group>
+      
+      <!-- Pregunta 2 -->
+      <ion-label class="letras">¿Te gusta tomarte fotos?</ion-label>
+      <ion-radio-group formControlName="tomarFotos" required>
+        <ion-item>
+          <ion-radio value="si"></ion-radio>
+          <ion-label class="letras">Sí</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-radio value="no"></ion-radio>
+          <ion-label class="letras">No</ion-label>
+        </ion-item>
+      </ion-radio-group>
+
+      <ion-label class="letras">¿Deseas un cupón para un regalo?</ion-label>
+      <ion-radio-group formControlName="cupon" required>
+        <ion-item>
+          <ion-radio value="si"></ion-radio>
+          <ion-label class="letras">Sí</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-radio value="no"></ion-radio>
+          <ion-label class="letras">No</ion-label>
+        </ion-item>
+      </ion-radio-group>
+
+      <!-- Botón de Enviar -->
+      <ion-button expand="block" type="submit" class="fondo" [disabled]="!userForm.valid"><ion-label class="enviar">Enviar</ion-label></ion-button>
+    </form>
+  </div>
+</ion-content>

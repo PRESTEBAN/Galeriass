@@ -1,0 +1,26 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="custom-toolbar">
+    <ion-title class="ion-text-center">
+      <strong>Galería de {{ userName }}</strong>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="fondito">
+  <div class="gallery">
+    <ion-row *ngIf="imagenes.length > 0; else noImages">
+      <ion-col size="6" *ngFor="let imagen of imagenes">
+        <img [src]="imagen" />
+      </ion-col>
+    </ion-row>
+    <ng-template #noImages>
+      <p class="ion-text-center">No hay imágenes para mostrar.</p>
+    </ng-template>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed" class="custom-fab">
+    <ion-fab-button (click)="getPicture()">
+      <ion-icon name="camera-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

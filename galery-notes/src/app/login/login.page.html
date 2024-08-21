@@ -1,0 +1,52 @@
+<ion-content [fullscreen]="true" >
+  <div class="general"> <!-- Este el el contenedor general que engloba todos los elementos que estan adentro -->
+    <ion-buttons slot="start">
+      <ion-back-button default-href="#"></ion-back-button>
+    </ion-buttons>
+    <div class="texto">
+      <ion-label id="titulo">Bienvenida a Gallery&Notes</ion-label>
+      <br><br>
+      <div class="contex">
+        <ion-label id="text"> Bienvenida mi amor usa tu cuenta para tomarte fotitos y escribir notitas ❤️🗒️</ion-label>
+      </div>
+    </div>
+    <br><br>
+    <form [formGroup]="formReg" (ngSubmit)="onSubmit()">
+      <ion-item class="mb-3">
+        <ion-label position="floating" >Email</ion-label>
+        <ion-input type="text" formControlName="email" ></ion-input>
+      </ion-item > 
+      <div *ngIf="formReg.get('email')?.errors?.['required'] && formReg.get('email')?.touched">
+        <ion-text color="danger">No se introdujo el usuario.</ion-text>
+      </div>
+      <div *ngIf="formReg.get('email')?.errors?.['email'] && formReg.get('email')?.touched">
+        <ion-text color="danger">Correo no válido.</ion-text>
+      </div>
+    
+      <ion-item class="mb-3">
+        <ion-label position="floating">Password</ion-label>
+        <ion-input type="password" formControlName="password"></ion-input>
+      </ion-item>
+      <div *ngIf="formReg.get('password')?.errors?.['required'] && formReg.get('password')?.touched">
+        <ion-text color="danger">No se introdujo la contraseña. 6 dig max.</ion-text>
+      </div>
+    
+      <div class="button">
+        <ion-button class="boton" shape="round" type="submit" ><ion-label class="registerButon">ACCEDER</ion-label></ion-button>
+      </div>
+    </form>
+    <br><br>
+    
+    <div class="iSesionCon">
+      <div class="or">
+        <div class="rectangle-2"></div>
+      </div>
+      <br><br>
+      <div class="textos">
+        <ion-label class="Aumento">¿Aún no tienes una cuenta? </ion-label>
+        <br>
+        <a href="register"><ion-label class="textS">Sign up</ion-label></a>
+      </div>
+    </div>
+  </div>
+</ion-content>
