@@ -75,12 +75,15 @@ export class NotificationServiceService {
   async sendNotification(currentUserEmail: string, message: string) {
     try {
       const otherUserEmail = await this.userService.getOtherUserEmail(currentUserEmail);
-      
       if (otherUserEmail) {
-        await firstValueFrom(this.http.post('https://ps-ciai-beta1.onrender.com/send-notification', {
+        console.log(`Enviando notificación a: ${otherUserEmail}`);
+        const response = await firstValueFrom(this.http.post('https://ps-ciai-beta1.onrender.com/send-notification', {
           email: otherUserEmail,
           message: message
         }));
+        console.log('Respuesta del servidor:', response);
+      } else {
+        console.error('No se pudo obtener el correo del otro usuario');
       }
     } catch (error) {
       console.error('Error al enviar la notificación:', error);

@@ -110,8 +110,13 @@ async uploadImage(imageBlob: Blob): Promise<string> {
   }
 
   async getOtherUserEmail(currentUserEmail: string): Promise<string | undefined> {
-    return this.allowedEmails.find(email => email !== currentUserEmail);
+    const otherEmail = this.allowedEmails.find(email => email !== currentUserEmail);
+    if (!otherEmail) {
+      console.error('No se encontró el correo del otro usuario');
+    }
+    return otherEmail;
   }
+  
 
   
 

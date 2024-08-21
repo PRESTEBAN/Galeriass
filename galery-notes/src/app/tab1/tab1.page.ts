@@ -53,19 +53,25 @@ export class Tab1Page {
       const blob = this.dataURItoBlob(imagenTomada.dataUrl);
       await this.userService.uploadImage(blob);
       await this.loadUserImages();
-      await this.sendNotification();
+      await this.sendNotification1();
       
     } else {
       console.error('Error: dataUrl no está disponible.');
     }
   }
 
-  async sendNotification() {
-    const currentUserEmail = await this.userService.getCurrentUserEmail();
-    if (currentUserEmail) {
-      await this.notificationService.sendNotification(currentUserEmail, `${currentUserEmail} ha subido una nueva foto!`);
-    } else {
-      console.error('No se pudo obtener el correo electrónico del usuario actual');
+  async sendNotification1() {
+    try {
+      const currentUserEmail = await this.userService.getCurrentUserEmail();
+      if (currentUserEmail) {
+        console.log(`Usuario actual: ${currentUserEmail}`);
+        await this.notificationService.sendNotification(currentUserEmail, `${currentUserEmail} ha subido una nueva foto!`);
+        console.log('Notificación enviada con éxito');
+      } else {
+        console.error('No se pudo obtener el correo electrónico del usuario actual');
+      }
+    } catch (error) {
+      console.error('Error al enviar la notificación:', error);
     }
   }
 
