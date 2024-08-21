@@ -20,14 +20,18 @@ export class Tab1Page {
 
 
   constructor(private userService: UserServiceService,private notificationService: NotificationServiceService, private http:HttpClient) {
-    this.notificationService.initialize();
   }
 
 
-  ngOnInit(): void {
-    Camera.requestPermissions();
-    this.loadUserName();
-    this.loadUserImages();
+  async ngOnInit() {
+    try {
+       Camera.requestPermissions();
+       this.notificationService.initialize();
+       this.loadUserName();
+       this.loadUserImages();
+    } catch (error) {
+      console.error('Error in ngOnInit:', error);
+    }
   }
 
 

@@ -60,7 +60,7 @@ export class NotificationServiceService {
     }
   }
 
-
+  
   private async saveToken(email: string, token: string) {
     await setDoc(doc(this.firestore, 'tokens', email), { token });
   }
