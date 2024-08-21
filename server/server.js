@@ -27,7 +27,7 @@ app.post('/send-notification', async (req, res) => {
   const { email, message } = req.body;
 
   try {
-    // Buscar el token en Firestore
+    // Buscar el token en Firestores
     const tokenDoc = await admin.firestore().collection('tokens').doc(email).get();
     if (!tokenDoc.exists) {
       throw new Error('Token not found for this email');
