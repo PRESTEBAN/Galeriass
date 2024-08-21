@@ -62,7 +62,12 @@ export class NotificationServiceService {
 
   
   private async saveToken(email: string, token: string) {
-    await setDoc(doc(this.firestore, 'tokens', email), { token });
+    try {
+      await setDoc(doc(this.firestore, 'tokens', email), { token });
+      console.log(`Token guardado exitosamente para ${email}`);
+    } catch (error) {
+      console.error(`Error al guardar el token para ${email}:`, error);
+    }
   }
 
 }
