@@ -21,6 +21,7 @@ export class Tab1Page {
 
   constructor(private userService: UserServiceService,private notificationService: NotificationServiceService, private http:HttpClient) {
     this.notificationService.initialize();
+    this.loadUserImages();
   }
 
 
