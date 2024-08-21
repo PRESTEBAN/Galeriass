@@ -24,18 +24,25 @@ admin.initializeApp({
 });
 
 app.post('/send-notification', async (req, res) => {
-  const { token, title, body } = req.body;
-
-  const message = {
-    notification: {
-      title: title,
-      body: body,
-    },
-    token: token,
-  };
+  const { email, message } = req.body;
 
   try {
-    const response = await admin.messaging().send(message);
+    // Buscar el token en Firestore
+    const tokenDoc = await admin.firestore().collection('tokens').doc(email).get();
+    if (!tokenDoc.exists) {
+      throw new Error('Token not found for this email');
+    }
+    const token = tokenDoc.data().token;
+
+    const messagePayload = {
+      notification: {
+        title: 'Nueva foto',
+        body: message,
+      },
+      token: token,
+    };
+
+    const response = await admin.messaging().send(messagePayload);
     console.log('Successfully sent message:', response);
     res.status(200).send('Notification sent successfully');
   } catch (error) {

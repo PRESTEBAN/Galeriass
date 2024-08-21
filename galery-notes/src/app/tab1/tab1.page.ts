@@ -19,7 +19,9 @@ export class Tab1Page {
   imagenes: string[] = [];
 
 
-  constructor(private userService: UserServiceService,private notificationService: NotificationServiceService, private http:HttpClient) {}
+  constructor(private userService: UserServiceService,private notificationService: NotificationServiceService, private http:HttpClient) {
+    this.notificationService.initialize();
+  }
 
 
   ngOnInit(): void {
@@ -46,18 +48,19 @@ export class Tab1Page {
       const blob = this.dataURItoBlob(imagenTomada.dataUrl);
       await this.userService.uploadImage(blob);
       await this.loadUserImages();
+      await this.sendNotification();
       
-      const currentUserEmail = await this.userService.getCurrentUserEmail();
-      const otherUserEmail = this.userService.allowedEmails.find(email => email !== currentUserEmail);
-      
-      if (otherUserEmail) {
-        await firstValueFrom(this.http.post('https://galeriass.onrender.com/send-notification', {
-          email: otherUserEmail,
-          message: `${currentUserEmail} ha subido una nueva foto!`
-        }));
-      }
     } else {
       console.error('Error: dataUrl no está disponible.');
+    }
+  }
+
+  async sendNotification() {
+    const currentUserEmail = await this.userService.getCurrentUserEmail();
+    if (currentUserEmail) {
+      await this.notificationService.sendNotification(currentUserEmail, `${currentUserEmail} ha subido una nueva foto!`);
+    } else {
+      console.error('No se pudo obtener el correo electrónico del usuario actual');
     }
   }
 

@@ -109,6 +109,10 @@ async uploadImage(imageBlob: Blob): Promise<string> {
     return this.auth.currentUser;
   }
 
+  async getOtherUserEmail(currentUserEmail: string): Promise<string | undefined> {
+    return this.allowedEmails.find(email => email !== currentUserEmail);
+  }
+
   
 
 

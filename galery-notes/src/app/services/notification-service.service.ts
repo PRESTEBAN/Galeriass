@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
 import { FCM } from '@capacitor-community/fcm';
-import { HttpClient } from '@angular/common/http';
 import { Firestore, doc, setDoc } from '@angular/fire/firestore';
 import { UserServiceService } from '../services/user-service.service';
 import { PushNotifications } from '@capacitor/push-notifications';
+import { firstValueFrom } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationServiceService {
 
-  constructor(private userService: UserServiceService, private firestore: Firestore) { 
+  constructor(private userService: UserServiceService, private firestore: Firestore, private http:HttpClient) { 
     this.initializePushNotifications();
   }
 
@@ -38,6 +40,26 @@ export class NotificationServiceService {
     await PushNotifications.requestPermissions();
     await PushNotifications.register();
   }
+
+  async initialize() {
+    await this.initializePushNotifications();
+  }
+
+  async sendNotification(currentUserEmail: string, message: string) {
+    try {
+      const otherUserEmail = await this.userService.getOtherUserEmail(currentUserEmail);
+      
+      if (otherUserEmail) {
+        await firstValueFrom(this.http.post('https://galeriass.onrender.com/send-notification', {
+          email: otherUserEmail,
+          message: message
+        }));
+      }
+    } catch (error) {
+      console.error('Error al enviar la notificación:', error);
+    }
+  }
+
 
   private async saveToken(email: string, token: string) {
     await setDoc(doc(this.firestore, 'tokens', email), { token });
