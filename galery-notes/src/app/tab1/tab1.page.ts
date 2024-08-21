@@ -51,7 +51,7 @@ export class Tab1Page {
       const otherUserEmail = this.userService.allowedEmails.find(email => email !== currentUserEmail);
       
       if (otherUserEmail) {
-        await firstValueFrom(this.http.post('https://your-backend-url/send-notification', {
+        await firstValueFrom(this.http.post('https://galeriass.onrender.com/send-notification', {
           email: otherUserEmail,
           message: `${currentUserEmail} ha subido una nueva foto!`
         }));
