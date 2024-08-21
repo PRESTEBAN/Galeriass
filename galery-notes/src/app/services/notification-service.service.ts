@@ -13,7 +13,6 @@ import { Capacitor } from '@capacitor/core';
 export class NotificationServiceService {
 
   constructor(private userService: UserServiceService, private firestore: Firestore, private http:HttpClient) { 
-    this.initializePushNotifications();
   }
 
   private async initializePushNotifications() {
@@ -29,8 +28,18 @@ export class NotificationServiceService {
           console.error('No se pudo obtener el email del usuario');
         }
       });
+
+      PushNotifications.addListener('registrationError', (error) => {
+        console.error('Push registration error: ', error.error);
+      });
   
-      // ... resto del código ...
+      PushNotifications.addListener('pushNotificationReceived', (notification) => {
+        console.log('Push received: ', notification);
+      });
+  
+      PushNotifications.addListener('pushNotificationActionPerformed', (notification) => {
+        console.log('Push action performed: ', notification);
+      });
   
       await PushNotifications.requestPermissions();
       await PushNotifications.register();
