@@ -5,6 +5,7 @@ import { UserServiceService } from '../services/user-service.service';
 import { PushNotifications } from '@capacitor/push-notifications';
 import { firstValueFrom } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Capacitor } from '@capacitor/core';
 
 @Injectable({
   providedIn: 'root'
@@ -16,35 +17,37 @@ export class NotificationServiceService {
   }
 
   private async initializePushNotifications() {
-    PushNotifications.addListener('registration', async (token) => {
-      console.log('Push registration success, token: ', token.value);
-
-      const email = await this.userService.getCurrentUserEmail();
-      if (email) {
-        await this.saveToken(email, token.value);
-      }
-    });
-
-    PushNotifications.addListener('registrationError', (error) => {
-      console.error('Push registration error: ', error.error);
-    });
-
-    PushNotifications.addListener('pushNotificationReceived', (notification) => {
-      console.log('Push received: ', notification);
-    });
-
-    PushNotifications.addListener('pushNotificationActionPerformed', (notification) => {
-      console.log('Push action performed: ', notification);
-    });
-
-    await PushNotifications.requestPermissions();
-    await PushNotifications.register();
+    if (Capacitor.isNativePlatform()) {
+      PushNotifications.addListener('registration', async (token) => {
+        console.log('Push registration success, token: ', token.value);
+  
+        const email = await this.userService.getCurrentUserEmail();
+        if (email) {
+          console.log('Email obtenido:', email);
+          await this.saveToken(email, token.value);
+        } else {
+          console.error('No se pudo obtener el email del usuario');
+        }
+      });
+  
+      // ... resto del código ...
+  
+      await PushNotifications.requestPermissions();
+      await PushNotifications.register();
+    } else {
+      console.log('Push notifications no están disponibles en la web');
+    }
   }
 
   async initialize() {
-    await this.initializePushNotifications();
+    try {
+      await this.initializePushNotifications();
+    } catch (error) {
+      console.error('Error al inicializar las notificaciones push:', error);
+    }
   }
 
+  
   async sendNotification(currentUserEmail: string, message: string) {
     try {
       const otherUserEmail = await this.userService.getOtherUserEmail(currentUserEmail);
