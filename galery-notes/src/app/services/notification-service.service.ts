@@ -17,36 +17,51 @@ export class NotificationServiceService {
 
   private async initializePushNotifications() {
     if (Capacitor.isNativePlatform()) {
-      PushNotifications.addListener('registration', async (token) => {
-        console.log('Push registration success, token: ', token.value);
+      // Solicitar permisos para las notificaciones push
+      const permissionStatus = await PushNotifications.requestPermissions();
+      
+      if (permissionStatus.receive === 'granted') {
+        // Registrar el dispositivo para recibir notificaciones
+        await PushNotifications.register();
   
-        const email = await this.userService.getCurrentUserEmail();
-        if (email) {
-          console.log('Email obtenido:', email);
-          await this.saveToken(email, token.value);
-        } else {
-          console.error('No se pudo obtener el email del usuario');
-        }
-      });
-
-      PushNotifications.addListener('registrationError', (error) => {
-        console.error('Push registration error: ', error.error);
-      });
+        // Listener para el evento de registro exitoso
+        PushNotifications.addListener('registration', async (token) => {
+          console.log('Push registration success, token: ', token.value);
   
-      PushNotifications.addListener('pushNotificationReceived', (notification) => {
-        console.log('Push received: ', notification);
-      });
+          // Obtener el correo del usuario actual
+          const email = await this.userService.getCurrentUserEmail();
+          if (email) {
+            console.log('Email obtenido:', email);
+            // Guardar el token en Firestore
+            await this.saveToken(email, token.value);
+          } else {
+            console.error('No se pudo obtener el email del usuario');
+          }
+        });
   
-      PushNotifications.addListener('pushNotificationActionPerformed', (notification) => {
-        console.log('Push action performed: ', notification);
-      });
+        // Listener para errores de registro
+        PushNotifications.addListener('registrationError', (error) => {
+          console.error('Push registration error: ', error.error);
+        });
   
-      await PushNotifications.requestPermissions();
-      await PushNotifications.register();
+        // Listener para recibir notificaciones push
+        PushNotifications.addListener('pushNotificationReceived', (notification) => {
+          console.log('Push received: ', notification);
+        });
+  
+        // Listener para acciones realizadas en una notificación push
+        PushNotifications.addListener('pushNotificationActionPerformed', (notification) => {
+          console.log('Push action performed: ', notification);
+        });
+  
+      } else {
+        console.log('Permiso para notificaciones push denegado');
+      }
     } else {
       console.log('Push notifications no están disponibles en la web');
     }
   }
+  
 
   async initialize() {
     try {
