@@ -77,7 +77,7 @@ export class NotificationServiceService {
       const otherUserEmail = await this.userService.getOtherUserEmail(currentUserEmail);
       
       if (otherUserEmail) {
-        await firstValueFrom(this.http.post('https://ps-ciai-beta1.onrender.com//send-notification', {
+        await firstValueFrom(this.http.post('https://ps-ciai-beta1.onrender.com/send-notification', {
           email: otherUserEmail,
           message: message
         }));
