@@ -80,7 +80,6 @@ export class NotificationServiceService {
         const response = await firstValueFrom(this.http.post('https://ps-ciai-beta1.onrender.com/send-notification', {
           email: otherUserEmail,
           message: message,
-          imageUrl: 'https://i.ibb.co/HLvMS2Z/formulario.jpg'
         }));
         console.log('Respuesta del servidor:', response);
       } else {

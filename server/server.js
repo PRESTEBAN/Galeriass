@@ -39,8 +39,7 @@ app.post('/send-notification', async (req, res) => {
     const messagePayload = {
       notification: {
         title: 'Nueva foto',
-        body: message,
-        image: 'https://i.ibb.co/HLvMS2Z/formulario.jpg',
+        body: message
       },
       token: token,
     };
