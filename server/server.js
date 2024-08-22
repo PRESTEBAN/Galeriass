@@ -1,9 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const admin = require('firebase-admin');
+const cors = require('cors'); // Importa el módulo cors
 
 const app = express();
 app.use(bodyParser.json());
+app.use(cors()); // Usa cors como middleware
 
 require('dotenv').config();
 
@@ -27,7 +29,7 @@ app.post('/send-notification', async (req, res) => {
   const { email, message } = req.body;
 
   try {
-    // Buscar el token en Firestores
+    // Buscar el token en Firestore
     const tokenDoc = await admin.firestore().collection('tokens').doc(email).get();
     if (!tokenDoc.exists) {
       throw new Error('Token not found for this email');
