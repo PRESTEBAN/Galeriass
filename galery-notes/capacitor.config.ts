@@ -9,7 +9,8 @@ const config: CapacitorConfig = {
       // Puedes agregar configuraciones específicas aquí si es necesario
     },
     PushNotifications: {
-      presentationOptions: ["badge", "sound", "alert"]
+      presentationOptions: ["badge", "sound", "alert", ],
+      
     },
     FCM: {
       enabled: true

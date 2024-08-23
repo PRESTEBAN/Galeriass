@@ -22,6 +22,7 @@ export class Tab1Page {
   constructor(private userService: UserServiceService,private notificationService: NotificationServiceService, private http:HttpClient) {
     this.notificationService.initialize();
     this.loadUserImages();
+    this.subscribeToImageUpdates();
   }
 
 
@@ -52,7 +53,6 @@ export class Tab1Page {
     if (imagenTomada && imagenTomada.dataUrl) {
       const blob = this.dataURItoBlob(imagenTomada.dataUrl);
       await this.userService.uploadImage(blob);
-      await this.loadUserImages();
       await this.sendNotification1();
       
     } else {
@@ -102,6 +102,13 @@ export class Tab1Page {
     }
   }
 
+  private subscribeToImageUpdates() {
+    this.userService.getImagesInRealTime().subscribe(images => {
+      this.imagenes = images;
+      console.log('Imagenes actualizadas:', images);
+    });
+  }
+  
   async savePhoto(photo: string) {
     if (Capacitor.isNativePlatform()) {
       try {

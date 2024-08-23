@@ -39,9 +39,15 @@ app.post('/send-notification', async (req, res) => {
     const messagePayload = {
       notification: {
         title: 'Nueva foto',
-        body: message
+        body: message,
       },
-      token: token,
+      android: {
+        notification: {
+          vibrateTimingsMillis: [0, 500, 1000, 500], // Patrón de vibración: [espera, vibrar, pausa, vibrar]
+          priority: 'high',
+        }
+      },
+       token: token,
     };
 
     const response = await admin.messaging().send(messagePayload);

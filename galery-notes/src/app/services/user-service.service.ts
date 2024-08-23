@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
-import { Firestore, collection, addDoc, doc, setDoc, getDoc, getDocs } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, doc, setDoc, getDoc, getDocs, onSnapshot, collectionData, query, orderBy } from '@angular/fire/firestore';
 import { HttpClient } from '@angular/common/http';
 import { Storage, ref, uploadBytes, listAll, getDownloadURL } from '@angular/fire/storage';
 import { User } from '@angular/fire/auth';
-
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -82,19 +82,26 @@ export class UserServiceService {
     }
   }
 
-async uploadImage(imageBlob: Blob): Promise<string> {
-  try {
-    const filePath = `shared/images/${new Date().getTime()}.jpg`;
-    const storageRef = ref(this.storage, filePath);
-    await uploadBytes(storageRef, imageBlob);
-    console.log('Imagen subida exitosamente:', filePath);
-    return filePath;
-  } catch (error) {
-    console.error('Error al subir la imagen:', error);
-    throw error;
+  async uploadImage(imageBlob: Blob): Promise<void> {
+    try {
+      const filePath = `shared/images/${new Date().getTime()}.jpg`;
+      const storageRef = ref(this.storage, filePath);
+      await uploadBytes(storageRef, imageBlob);
+      
+      const downloadURL = await getDownloadURL(storageRef);
+      await this.saveImageURLToFirestore(downloadURL);
+      console.log('Imagen subida y URL guardada en Firestore:', downloadURL);
+    } catch (error) {
+      console.error('Error al subir la imagen:', error);
+      throw error;
+    }
   }
-}
-
+  
+  private async saveImageURLToFirestore(downloadURL: string): Promise<void> {
+    const imagesCollection = collection(this.firestore, 'shared-images');
+    await addDoc(imagesCollection, { url: downloadURL, timestamp: new Date() });
+  }
+  
 
   async getUserImages(): Promise<string[]> {
     const imagesRef = ref(this.storage, 'shared/images');
@@ -116,9 +123,17 @@ async uploadImage(imageBlob: Blob): Promise<string> {
     }
     return otherEmail;
   }
-  
 
-  
-
+  getImagesInRealTime(): Observable<string[]> {
+    const imagesCollection = collection(this.firestore, 'shared-images');
+    const imagesQuery = query(imagesCollection, orderBy('timestamp', 'desc'));
+    return new Observable(observer => {
+      onSnapshot(imagesQuery, async (snapshot) => {
+        const urls = await Promise.all(snapshot.docs.map(async doc => doc.data()['url']));
+        observer.next(urls);
+      });
+    });
+  }  
 
 }
+  
