@@ -89,29 +89,45 @@ export class UserServiceService {
       await uploadBytes(storageRef, imageBlob);
       
       const downloadURL = await getDownloadURL(storageRef);
-      await this.saveImageURLToFirestore(downloadURL);
-      console.log('Imagen subida y URL guardada en Firestore:', downloadURL);
+      const currentUserEmail = await this.getCurrentUserEmail();
+      
+      if (currentUserEmail) {
+        await this.saveImageURLToFirestore(downloadURL, currentUserEmail);
+        console.log('Imagen subida y URL guardada en Firestore:', downloadURL);
+      } else {
+        console.error('No se pudo obtener el correo electrónico del usuario actual');
+        // You might want to throw an error here or handle this case differently
+        throw new Error('No user authenticated');
+      }
     } catch (error) {
       console.error('Error al subir la imagen:', error);
       throw error;
     }
   }
   
-  private async saveImageURLToFirestore(downloadURL: string): Promise<void> {
+  private async saveImageURLToFirestore(downloadURL: string, currentUserEmail: string): Promise<void> {
     const imagesCollection = collection(this.firestore, 'shared-images');
-    await addDoc(imagesCollection, { url: downloadURL, timestamp: new Date() });
-  }
-  
-
-  async getUserImages(): Promise<string[]> {
-    const imagesRef = ref(this.storage, 'shared/images');
-    const imagesList = await listAll(imagesRef);
-    const urls = await Promise.all(
-      imagesList.items.map(async (itemRef) => await getDownloadURL(itemRef))
-    );
-    return urls;
+    await addDoc(imagesCollection, { 
+      url: downloadURL, 
+      timestamp: new Date(), 
+      isNew: true,
+      viewedBy: [currentUserEmail], // Add the current user to viewedBy
+      uploadedBy: currentUserEmail // Add this field to track who uploaded the image
+    });
   }
 
+  async getUserImages(): Promise<any[]> {
+    const imagesCollection = collection(this.firestore, 'shared-images');
+    const imagesQuery = query(imagesCollection, orderBy('timestamp', 'desc'));
+    const querySnapshot = await getDocs(imagesQuery);
+    return querySnapshot.docs.map(doc => ({
+      url: doc.data()['url'],
+      id: doc.id,
+      isNew: doc.data()['isNew'] || false,
+      viewedBy: doc.data()['viewedBy'] || [],
+      timestamp: doc.data()['timestamp']
+    }));
+  }
   async getCurrentUser(): Promise<User | null> {
     return this.auth.currentUser;
   }
@@ -124,16 +140,44 @@ export class UserServiceService {
     return otherEmail;
   }
 
-  getImagesInRealTime(): Observable<string[]> {
+  getImagesInRealTime(): Observable<any[]> {
     const imagesCollection = collection(this.firestore, 'shared-images');
     const imagesQuery = query(imagesCollection, orderBy('timestamp', 'desc'));
     return new Observable(observer => {
       onSnapshot(imagesQuery, async (snapshot) => {
-        const urls = await Promise.all(snapshot.docs.map(async doc => doc.data()['url']));
+        const urls = await Promise.all(snapshot.docs.map(async doc => {
+          const data = doc.data();
+          return {
+            url: data['url'],
+            id: doc.id,
+            isNew: data['isNew'] || false,
+            viewedBy: data['viewedBy'] || [],
+            timestamp: data['timestamp']
+          };
+        }));
         observer.next(urls);
       });
     });
-  }  
+  }
+
+  async markImageAsViewed(imageId: string, userEmail: string) {
+    const imageRef = doc(this.firestore, 'shared-images', imageId);
+    const imageDoc = await getDoc(imageRef);
+    
+    if (imageDoc.exists()) {
+      const imageData = imageDoc.data();
+      const viewedBy = imageData['viewedBy'] || [];
+      
+      if (!viewedBy.includes(userEmail)) {
+        viewedBy.push(userEmail);
+        await setDoc(imageRef, { viewedBy }, { merge: true });
+        
+        if (viewedBy.length === 2) {
+          await setDoc(imageRef, { isNew: false }, { merge: true });
+        }
+      }
+    }
+  }
 
 }
   

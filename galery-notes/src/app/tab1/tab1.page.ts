@@ -16,12 +16,12 @@ export class Tab1Page {
 
   userName: string = '';
   isLoading: boolean = true;
-  imagenes: string[] = [];
-
+  imagenes: any[] = []; 
+  userEmail: string = '';
 
   constructor(private userService: UserServiceService,private notificationService: NotificationServiceService, private http:HttpClient) {
     this.notificationService.initialize();
-    this.loadUserImages();
+    this.loadUserInfo();
     this.subscribeToImageUpdates();
   }
 
@@ -33,6 +33,16 @@ export class Tab1Page {
        this.loadUserImages();
     } catch (error) {
       console.error('Error in ngOnInit:', error);
+    }
+  }
+
+  async loadUserInfo() {
+    try {
+      this.userName = await this.userService.getUserName();
+      this.userEmail = await this.userService.getCurrentUserEmail() || '';
+      await this.loadUserImages();
+    } catch (error) {
+      console.error('Error al cargar la información del usuario:', error);
     }
   }
 
@@ -107,6 +117,21 @@ export class Tab1Page {
       this.imagenes = images;
       console.log('Imagenes actualizadas:', images);
     });
+  }
+
+  async markImageAsViewed(imageId: string) {
+    const currentUserEmail = await this.userService.getCurrentUserEmail();
+    if (currentUserEmail) {
+      await this.userService.markImageAsViewed(imageId, currentUserEmail);
+      // Update the local image data
+      const imageIndex = this.imagenes.findIndex(img => img.id === imageId);
+      if (imageIndex !== -1) {
+        this.imagenes[imageIndex].viewedBy.push(currentUserEmail);
+        if (this.imagenes[imageIndex].viewedBy.length === 2) {
+          this.imagenes[imageIndex].isNew = false;
+        }
+      }
+    }
   }
   
   async savePhoto(photo: string) {

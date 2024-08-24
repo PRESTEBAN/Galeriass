@@ -10,7 +10,10 @@
   <div class="gallery">
     <ion-row *ngIf="imagenes.length > 0; else noImages">
       <ion-col size="6" *ngFor="let imagen of imagenes">
-        <img [src]="imagen" />
+        <div class="image-container" (click)="markImageAsViewed(imagen.id)">
+          <img [src]="imagen.url" />
+          <div class="new-tag" *ngIf="imagen.isNew && !imagen.viewedBy.includes(userEmail) && imagen.uploadedBy !== userEmail">Nuevo</div>
+        </div>
       </ion-col>
     </ion-row>
     <ng-template #noImages>
@@ -19,7 +22,7 @@
   </div>
 
   <ion-fab vertical="bottom" horizontal="center" slot="fixed" class="custom-fab">
-    <ion-fab-button (click)="getPicture()">
+    <ion-fab-button (click)="getPicture()" class="custom-fab-button">
       <ion-icon name="camera-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
