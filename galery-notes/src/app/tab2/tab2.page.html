@@ -1,11 +1,53 @@
 <ion-header [translucent]="true">
   <ion-toolbar class="custom-toolbar" class="custom-header">
     <ion-title class="ion-text-center">
-      <strong class="Titulo">Notas de {{ userName }}</strong>
+      <strong class="Titulo"> Notas de {{ userName }}</strong>
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true"  class="fondito">
-  
+<ion-content [fullscreen]="true" class="fondito">
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed" class="custom-fab">
+    <ion-fab-button (click)="openNewNote()" class="custom-fab-button">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <div class="note-container">
+    <div *ngFor="let note of notes" class="note-card">
+      <ion-card (click)="markNoteAsRead(note)">
+        <ion-card-header>
+          <ion-card-subtitle>Nota subida por: {{ note.createdBy }} 🗒️</ion-card-subtitle>
+          <ion-card-title>{{ note.title }}</ion-card-title>
+          <div class="new-tag" *ngIf="note.isNew">Nuevo</div>
+        </ion-card-header>
+        <ion-card-content [ngClass]="{'expanded': note.expanded}">
+          {{ note.content }}
+        </ion-card-content>
+        <ion-button fill="clear" *ngIf="isContentOverflowing(note)" (click)="toggleExpand(note); $event.stopPropagation()">
+          <ion-icon [name]="note.expanded ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+          {{ note.expanded ? 'Ver menos' : 'Ver más' }}
+        </ion-button>
+        <ion-list>
+          <ion-label class="respondo">Comentarios:</ion-label>
+          <ion-item *ngFor="let response of note.responses">
+            <ion-label>
+              <ion-label class="respondp">Te ha respondido: {{ response.createdBy }}</ion-label>
+              <p [ngClass]="{'expanded': response.expanded}">
+                {{ response.content }}
+              </p>
+              <ion-button fill="clear" *ngIf="isContentOverflowing(response)" (click)="toggleExpand(response); $event.stopPropagation()">
+                <ion-icon [name]="response.expanded ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+                {{ response.expanded ? 'Ver menos' : 'Ver más' }}
+              </ion-button>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+        <div class="card-actions">
+          <ion-icon name="chatbubble-outline" class="reply-icon" (click)="openResponseModal(note); $event.stopPropagation()"></ion-icon>
+          <ion-icon name="ellipsis-vertical" class="more-icon" (click)="presentActionSheet(note); $event.stopPropagation()"></ion-icon>
+        </div>
+      </ion-card>
+    </div>
+  </div>
 </ion-content>

@@ -13,6 +13,9 @@
         <div class="image-container" (click)="markImageAsViewed(imagen.id)">
           <img [src]="imagen.url" />
           <div class="new-tag" *ngIf="imagen.isNew && !imagen.viewedBy.includes(userEmail) && imagen.uploadedBy !== userEmail">Nuevo</div>
+          <ion-button fill="clear" class="options-button" (click)="presentActionSheet(imagen); $event.stopPropagation()">
+            <ion-icon name="ellipsis-vertical"></ion-icon>
+          </ion-button>
         </div>
       </ion-col>
     </ion-row>

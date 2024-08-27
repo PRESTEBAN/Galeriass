@@ -44,7 +44,8 @@ export class LoginPage implements OnInit {
     const alert = await this.alertController.create({
       header: header,
       message: message,
-      buttons: ['OK']
+      buttons: ['OK'],
+      cssClass: 'custom-alert' 
     });
 
     await alert.present();

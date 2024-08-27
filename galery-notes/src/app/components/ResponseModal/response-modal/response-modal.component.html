@@ -1,0 +1,11 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Responder</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="content">
+  <ion-textarea [(ngModel)]="responseContent" placeholder="Escribe tu respuesta..." class="coso"></ion-textarea>
+  <ion-button expand="block" [disabled]="!responseContent.trim()" (click)="submitResponse()" class="boton1">Enviar Comentario</ion-button>
+  <ion-button expand="block" color="light" class="close-button" (click)="dismissModal()">Cerrar</ion-button>
+</ion-content>

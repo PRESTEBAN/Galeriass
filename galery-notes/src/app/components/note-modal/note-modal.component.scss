@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sedan:wght@100;400&display=swap');
+
+* {
+    font-family: "Montserrat", sans-serif;
+  }
+
+
+  .custom-modal {
+    --width: 90%;
+    --max-width: 400px;
+    --height: auto;
+    --min-height: 300px;
+    --border-radius: 16px;
+    --box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    --background: #fcdde3;
+  }
+  .modal-content {
+    --background: #fcdde3;
+    padding: 20px;
+    border-radius: 16px;
+    font-family: "Montserrat", sans-serif;
+    min-height: 300px;  
+  }
+  .modal-header {
+    --background: #fcdde3;
+    border-bottom: 1px solid #f7c2cc;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+  }
+  
+  
+  .modal-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    text-align: center;
+    color: #000;
+  }
+  
+  
+  ion-item {
+    --background: transparent;
+    --color: #000;
+    --highlight-color-focused: #f7c2cc;
+    --background-activated: transparent;
+    font-family: "Montserrat", sans-serif;
+    --padding-top: 10px; /* Ajusta este valor según sea necesario */
+    --padding-bottom: 10px; /* Ajusta este valor según sea necesario */
+  }
+  
+  ion-label {
+    color: #000;
+    font-family: "Montserrat", sans-serif;
+    margin-bottom: 10px;/* Añade un margen inferior para separar la etiqueta del input */
+  }
+  
+  
+  ion-input, ion-textarea {
+    font-family: "Montserrat", sans-serif;
+    color: #000;
+    --background: #fff8f0;
+    --padding-start: 10px;
+    --padding-end: 10px;
+    --padding-top: 12px;
+  --padding-bottom: 12px; /* Aumenta el padding inferior si es necesario */
+    border-radius: 8px;
+  }
+  
+  .button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  ion-header {
+    --background: #fcdde3;
+  }
+
+  ion-toolbar {
+    --background: #fcdde3;
+  }
+  
+  ion-button {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    --background: #f7c2cc;
+    color: #000;
+    --ripple-color: #fcdde3;
+  }
+  
+  ion-button[color="light"] {
+    --background: #d3d3d3;
+    color: #000;
+  }
+
+  .custom-modal .modal-wrapper {
+    background: #fcdde3;
+  }

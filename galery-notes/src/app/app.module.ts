@@ -15,12 +15,19 @@ import { environment } from '../environments/environment';
 
 import { HttpClientModule } from '@angular/common/http';
 
+import { NoteModalComponent } from './components/note-modal/note-modal.component'; 
+import { FormsModule } from '@angular/forms';
+
+import { ResponseModalComponent } from './components/ResponseModal/response-modal/response-modal.component';
+
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent,  NoteModalComponent, ResponseModalComponent],
   imports: [BrowserModule,
      IonicModule.forRoot(),
      AppRoutingModule,
-     HttpClientModule],
+     HttpClientModule,
+     FormsModule,
+    ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, 
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
      provideAuth(() => getAuth()),

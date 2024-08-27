@@ -1,0 +1,22 @@
+<ion-header class="modal-header">
+  <ion-toolbar>
+    <ion-title class="modal-title">Crear Nota</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="modal-content">
+  <ion-item>
+    <ion-label position="stacked">Título</ion-label> <!-- Cambiado a "stacked" -->
+    <ion-input [(ngModel)]="noteTitle"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Contenido</ion-label> <!-- Cambiado a "stacked" -->
+    <ion-textarea [(ngModel)]="noteContent"></ion-textarea>
+  </ion-item>
+
+  <div class="button-container">
+    <ion-button expand="block" (click)="saveNote()">Guardar</ion-button>
+    <ion-button expand="block" (click)="dismiss()" color="light">Cancelar</ion-button>
+  </div>
+</ion-content>

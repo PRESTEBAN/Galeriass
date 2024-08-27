@@ -35,3 +35,58 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sedan:wght@100;400&display=swap');
+
+:host {
+  font-family: "Montserrat", sans-serif;
+}
+
+body {
+    background-color: #fcdde3 !important;
+  }
+  
+  .custom-modal {
+    --width: 97%;
+    --max-width: 405px;
+    --height: auto;
+    --min-height: 370px;  // Añade esta línea
+    --border-radius: 16px;
+    --box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    --background: #fcdde3;
+  }
+  
+  .custom-modal .modal-wrapper {
+    background: #fcdde3;
+  }
+
+  .custom-alert .alert-wrapper {
+    background-color: #fcdde3; /* Color de fondo rosa */
+    --background: #fcdde3; /* Asegurarte de que todo el fondo del alert tenga el color rosa */
+  }
+
+  .custom-alert .alert-title {
+    font-family: "Montserrat", sans-serif;
+    color: white;
+    font-weight: 900;
+  }
+
+  
+  
+  .custom-alert .alert-sub-title {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500
+  }
+
+
+  
+  
+
+
+  
+
+  
+  
+
+  

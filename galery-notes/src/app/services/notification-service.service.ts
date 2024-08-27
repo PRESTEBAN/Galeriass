@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { FCM } from '@capacitor-community/fcm';
 import { Firestore, doc, setDoc } from '@angular/fire/firestore';
 import { UserServiceService } from '../services/user-service.service';
 import { PushNotifications } from '@capacitor/push-notifications';
@@ -12,7 +11,9 @@ import { Capacitor } from '@capacitor/core';
 })
 export class NotificationServiceService {
 
+  
   constructor(private userService: UserServiceService, private firestore: Firestore, private http:HttpClient) { 
+  
   }
 
   private async initializePushNotifications() {
@@ -99,5 +100,48 @@ export class NotificationServiceService {
       console.error(`Error al guardar el token para ${email}:`, error);
     }
   }
+
+  async sendNoteResponseNotification(noteCreatorEmail: string, responderEmail: string, noteTitle: string) {
+    try {
+      if (noteCreatorEmail === responderEmail) {
+        console.log('El creador de la nota respondió a su propia nota. No se envía notificación.');
+        return;
+      }
+
+      const recipientEmail = noteCreatorEmail;
+      const message = `${responderEmail} ha respondido a tu nota: ${noteTitle}`;
+
+      console.log(`Enviando notificación a: ${recipientEmail}`);
+      const response = await firstValueFrom(this.http.post('https://ps-ciai-beta1.onrender.com/send-notification', {
+        email: recipientEmail,
+        message: message,
+      }));
+      console.log('Respuesta del servidor:', response);
+    } catch (error) {
+      console.error('Error al enviar la notificación de respuesta a nota:', error);
+    }
+  }
+
+  async sendCommentReplyNotification(responderEmail: string, recipientEmail: string, noteTitle: string) {
+    try {
+      if (responderEmail === recipientEmail) {
+        console.log('El usuario está respondiendo a su propio comentario. No se envía notificación.');
+        return;
+      }
+  
+      const message = `${responderEmail} ha respondido a un comentario en la nota: ${noteTitle}`;
+  
+      console.log(`Enviando notificación a: ${recipientEmail}`);
+      const response = await firstValueFrom(this.http.post('https://ps-ciai-beta1.onrender.com/send-notification', {
+        email: recipientEmail,
+        message: message,
+      }));
+      console.log('Respuesta del servidor:', response);
+    } catch (error) {
+      console.error('Error al enviar la notificación de respuesta a comentario:', error);
+    }
+  }
+
+
 
 }

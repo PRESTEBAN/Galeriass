@@ -5,7 +5,7 @@ import { Directory, Filesystem } from '@capacitor/filesystem';
 import { Capacitor } from '@capacitor/core';
 import { NotificationServiceService} from '../services/notification-service.service';
 import { HttpClient } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
+import { ActionSheetButton, ActionSheetController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab1',
@@ -19,7 +19,7 @@ export class Tab1Page {
   imagenes: any[] = []; 
   userEmail: string = '';
 
-  constructor(private userService: UserServiceService,private notificationService: NotificationServiceService, private http:HttpClient) {
+  constructor(private userService: UserServiceService,private notificationService: NotificationServiceService, private http:HttpClient, private actionSheetController: ActionSheetController) {
     this.notificationService.initialize();
     this.loadUserInfo();
     this.subscribeToImageUpdates();
@@ -33,6 +33,51 @@ export class Tab1Page {
        this.loadUserImages();
     } catch (error) {
       console.error('Error in ngOnInit:', error);
+    }
+  }
+
+  async presentActionSheet(imagen: any) {
+    const currentUserEmail = await this.userService.getCurrentUserEmail();
+    
+    let buttons: ActionSheetButton[] = [
+      {
+        text: 'Cancelar',
+        icon: 'close',
+        role: 'cancel'
+      }
+    ];
+  
+    if (imagen.uploadedBy === currentUserEmail) {
+      buttons.unshift({
+        text: 'Eliminar imagen',
+        role: 'destructive',
+        icon: 'trash',
+        handler: () => {
+          this.deleteImage(imagen);
+        }
+      });
+    }
+  
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Opciones',
+      buttons: buttons
+    });
+    await actionSheet.present();
+  }
+
+  async deleteImage(imagen: any) {
+    try {
+      const currentUserEmail = await this.userService.getCurrentUserEmail();
+      if (imagen.uploadedBy !== currentUserEmail) {
+        console.error('No tienes permiso para eliminar esta imagen');
+        return;
+      }
+      
+      await this.userService.deleteImage(imagen.id);
+      this.imagenes = this.imagenes.filter(img => img.id !== imagen.id);
+      console.log('Imagen eliminada con éxito');
+    } catch (error) {
+      console.error('Error al eliminar la imagen:', error);
     }
   }
 

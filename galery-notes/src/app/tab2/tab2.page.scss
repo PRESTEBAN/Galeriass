@@ -1,24 +1,231 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Sedan:wght@100;400&display=swap');
 
-
-* {
+:host {
   font-family: "Montserrat", sans-serif;
 }
 
-ion-content.fondito{
-    --background: linear-gradient(to bottom, rgba(231, 216, 202, 0.4), rgba(224, 179, 158, 0.4));
-    background-color: #e7d8ca;
-    background-image: url('/assets/galeria.jpg');
+ion-content.fondito {
+  --background: linear-gradient(to bottom, rgba(231, 216, 202, 0.4), rgba(224, 179, 158, 0.4));
+  background-color: #e7d8ca;
+  background-image: url('/assets/galeria.jpg');
+}
+
+ion-toolbar.custom-header {
+  --background: #fcdde3;
+}
+
+.Titulo {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 900;
+  font-size: 20px;
+}
+
+.note-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  padding: 12px;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.note-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto; 
+  overflow: hidden;
+}
+
+ion-card {
+  --background: #fff8f0;
+  --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin: 0;
+  height: 100%; 
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+ion-card-title{
+  --color: #ea6372;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 900;
+  white-space: nowrap; /* Añade esta línea */
+  overflow: hidden; /* Añade esta línea */
+  text-overflow: ellipsis
+}
+
+.action-sheet-button {
+  --background: transparent;
+}
+.action-sheet-button ion-icon {
+  color: #000; /* Cambia el color del ícono aquí */
+}
+
+ion-card-content{
+  font-family: "Montserrat", sans-serif;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  transition: max-height 0.3s ease-out;
+  max-height: 120px; /* Ajusta este valor según sea necesario */
+}
+
+ion-card-content.expanded {
+  -webkit-line-clamp: unset;
+  max-height: none;
+}
+
+ion-button {
+  --color: #ea6372;
+}
+
+ion-card-subtitle{
+  font-family: "Montserrat", sans-serif;
+  font-size: 10px;
+}
+
+.custom-fab-button {
+  --background: #eb7276;
+  --color: white;
+}
+
+.new-tag {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #eb7276;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+ion-list {
+  background: transparent;
+}
+
+ion-item {
+  --background: #fff8f0;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+ion-item ion-label p {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Limitar a 3 líneas */
+  -webkit-box-orient: vertical;
+  transition: max-height 0.3s ease-out;
+  max-height: 72px; /* Ajusta este valor según sea necesario */
+}
+
+ion-item ion-label p.expanded {
+  -webkit-line-clamp: unset;
+  max-height: none;
+}
+
+.action-buttons {
+  --background: transparent;
+  --min-height: 30px;
+}
+
+.action-buttons ion-icon {
+  font-size: 20px;
+  color: #666;
+  margin-left: 10px;
+}
+
+
+.card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 10px;
+  margin-top: auto;
+}
+
+.reply-icon, .more-icon {
+  font-size: 20px;
+  color: #666;
+}
+
+.reply-icon {
+  margin-right: auto;
+}
+
+.more-icon {
+  margin-left: auto;
+}
+
+.respondp{
+  --color: #ea6372;
+  font-size: 7px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+}
+
+.respondo{
+  --color: #ea6372;
+  font-family: "Montserrat", sans-serif;
+  margin-left: 15px;
+  font-weight: 600;
+}
+
+@media (max-width: 360px) {
+  .note-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Ajustes para pantallas medianas */
+@media (min-width: 361px) and (max-width: 720px) {
+  .note-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Ajustes de fuente para mejor legibilidad en pantallas pequeñas */
+@media (max-width: 720px) {
+  ion-card-title {
+    font-size: 16px;
   }
 
-  ion-toolbar.custom-header {
-    --background: #fcdde3; /* Color de fondo del ion-header */
+  ion-card-content {
+    font-size: 14px;
   }
 
-  .Titulo{
-    font-family: "Montserrat", sans-serif;
-    font-weight: 900;
-    font-size: 20px;
+  ion-card-subtitle {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 360px) {
+  .note-container {
+    grid-template-columns: 1fr;
   }
   
+  ion-card {
+    width: 100%;
+  }
+}
+
+
